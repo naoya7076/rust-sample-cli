@@ -20,6 +20,29 @@ struct Opts {
     formula_file: Option<String>,
 }
 
+struct RpnCalculator(bool);
+
+impl RpnCalculator {
+    // Selfは呼び出し元オブジェクトの型。この場合はRpnCalculator
+    pub fn new(verbose: bool) -> Self {
+        Self(verbose)
+    }
+
+    // &strがわからん.まず&がわからん
+    pub fn eval(&self, formula: &str) -> i32 {
+        // mutとVecがわからん
+        // 確かmutは可変の変数
+        // collectはイテレータをコレクションに変換する。変換先のコレクションを::<T>のように指定できる
+        let mut tokens = formula.split_whitespace().rev().collect::<Vec<_>>();
+        // &mutもわからん
+        self.eval_inner(&mut tokens)
+    }
+
+    fn eval_inner(&self, tokens: &mut Vec<&str>) -> i32 {
+        0
+    }
+}
+
 fn main() {
     let opts = Opts::parse();
 
@@ -39,8 +62,11 @@ fn main() {
 // lines()関数はBufReadというトレイトを実装していれば利用できる
 // traitがあまり分からないのでtrait.rsに実装
 fn run<R: BufRead>(reader: R, verbose: bool) {
+    let calc = RpnCalculator::new(verbose);
+
     for line in reader.lines() {
         let line = line.unwrap();
-        println!("{}", line)
+        let answer = calc.eval(&line);
+        println!("{}", answer)
     }
 }
