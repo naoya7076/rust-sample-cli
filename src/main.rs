@@ -35,6 +35,9 @@ impl RpnCalculator {
         // collectはイテレータをコレクションに変換する。変換先のコレクションを::<T>のように指定できる
         let mut tokens = formula.split_whitespace().rev().collect::<Vec<_>>();
         // &mutもわからん
+        // mutは可変な変数であることはわかる。
+        // 所有権と借用の話
+        // 借用: 所有権は元の所有者が持ったまま、値の参照を貸し出すこと
         self.eval_inner(&mut tokens)
     }
 
