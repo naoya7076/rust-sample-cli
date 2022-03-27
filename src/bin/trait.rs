@@ -15,7 +15,7 @@ trait Animal {
     fn scientific_name(&self) -> String;
 }
 
-struct Doc;
+struct Dog;
 impl Animal for Dog {
     fn lifespan(&self) -> u32 {
         13
