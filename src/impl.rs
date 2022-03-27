@@ -4,7 +4,7 @@ struct Person {
 }
 // 構造体に関係の深い関数を紐付ければオブジェクト指向のプログラミングのクラスのような扱いができる
 impl Person {
-    // &selfはself: Selfのシンタックスシュガー
+    // &selfはself:&Selfのシンタックスシュガー
     fn say_name(&self) {
         println!("I am {}.", self.name);
     }
