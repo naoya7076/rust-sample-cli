@@ -90,7 +90,7 @@ fn main() {
 }
 
 // lines()関数はBufReadというトレイトを実装していれば利用できる
-// traitがあまり分からないのでtrait.rsに実装
+// traitがあまり分からないのでtrait.rsで学習
 fn run<R: BufRead>(reader: R, verbose: bool) {
     let calc = RpnCalculator::new(verbose);
 
@@ -98,5 +98,31 @@ fn run<R: BufRead>(reader: R, verbose: bool) {
         let line = line.unwrap();
         let answer = calc.eval(&line);
         println!("{}", answer)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn text_ok() {
+        let calc = RpnCalculator::new(false);
+        assert_eq!(calc.eval("5"), 5);
+        assert_eq!(calc.eval("50"), 50);
+        assert_eq!(calc.eval("-50"), -50);
+
+        assert_eq!(calc.eval("2 3 +"), 5);
+        assert_eq!(calc.eval("2 3 *"), 6);
+        assert_eq!(calc.eval("2 3 - "), -1);
+        assert_eq!(calc.eval("2 3 /"), 0);
+        assert_eq!(calc.eval("2 3 %"), 2);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_ng() {
+        let calc = RpnCalculator::new(false);
+        calc.eval("1 1 ^");
     }
 }
