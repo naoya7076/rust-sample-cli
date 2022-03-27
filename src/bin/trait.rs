@@ -8,6 +8,7 @@ fn main() {
 
 trait Animal {
     // &selfとは何ぞや
+    // -> self: &Selfのシンタックスシュガー
     // https://doc.rust-jp.rs/rust-by-example-ja/fn/methods.html
     fn lifespan(&self) -> u32;
 
