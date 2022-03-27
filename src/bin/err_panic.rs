@@ -1,3 +1,19 @@
+use std::fmt;
+
+impl fmt::Display for MyError {
+    // 'とは何だ。static？
+    // ライフタイムの文脈で使われている
+    // https://doc.rust-jp.rs/rust-nomicon-ja/lifetimes.html
+    // このブログが参考になりそう
+    // https://numb86-tech.hatenablog.com/entry/2021/05/22/195352
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            MyError::Io(cause) => write!(f, "I/O Error: {}", cause),
+            MyError::Num(cause) => write!(f, "Parse Error: {}", cause),
+        }
+    }
+}
+
 enum MyError {
     Io(std::io::Error),
     Num(std::num::ParseIntError),
@@ -19,9 +35,6 @@ fn get_int_from_file() -> Result<i32, MyError> {
 fn main() {
     match get_int_from_file() {
         Ok(x) => println!("{}", x),
-        Err(e) => match e {
-            MyError::Io(cause) => println!("I/O Error: {}", cause),
-            MyError::Num(cause) => println!("Parse Error: {}", cause),
-        },
+        Err(e) => println!("{}", e),
     }
 }
