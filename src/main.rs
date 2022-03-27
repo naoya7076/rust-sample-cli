@@ -33,16 +33,43 @@ impl RpnCalculator {
         // mutとVecがわからん
         // 確かmutは可変の変数
         // collectはイテレータをコレクションに変換する。変換先のコレクションを::<T>のように指定できる
+        // Vec<_>のように_で埋めておけば型推論される
         let mut tokens = formula.split_whitespace().rev().collect::<Vec<_>>();
-        // &mutもわからん
-        // mutは可変な変数であることはわかる。
         // 所有権と借用の話
         // 借用: 所有権は元の所有者が持ったまま、値の参照を貸し出すこと
         self.eval_inner(&mut tokens)
     }
 
     fn eval_inner(&self, tokens: &mut Vec<&str>) -> i32 {
-        0
+        let mut stack = Vec::new();
+
+        while let Some(token) = tokens.pop() {
+            if let Ok(x) = token.parse::<i32>() {
+                stack.push(x)
+            } else {
+                let y = stack.pop().expect("invalid syntax");
+                let x = stack.pop().expect("invalid syntax");
+                let res = match token {
+                    "+" => x + y,
+                    "-" => x - y,
+                    "*" => x * y,
+                    "/" => x / y,
+                    "%" => x % y,
+                    _ => panic!("invalid token"),
+                };
+                stack.push(res)
+            }
+
+            if self.0 {
+                println!("{:?} {:?}", tokens, stack);
+            }
+        }
+
+        if stack.len() == 1 {
+            stack[0]
+        } else {
+            panic!("incalid syntax")
+        }
     }
 }
 
