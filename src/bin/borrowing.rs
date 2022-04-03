@@ -9,6 +9,6 @@ fn main() {
     println!("{}", important_data)
 }
 
-fn calc_data(data: &String) {
+fn calc_data(data: &str) {
     println!("{}", data);
 }
