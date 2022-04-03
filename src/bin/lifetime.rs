@@ -1,9 +1,13 @@
-fn some_method<'a>(arg1: &'a String, arg2: &String) -> &'a String {
+fn some_method<'a>(arg1: &'a str, _arg2: &str) -> &'a str {
     arg1
 }
 
 fn main() {
-    let arg1 = "hoge".to_string();
-    let arg2 = "piyo".to_string();
-    let returned_arg1 = some_method(&arg1, &arg2);
+    let z;
+    let x = "foo".to_string();
+    {
+        let y = "bar".to_string();
+        z = some_method(&x, &y)
+    }
+    println!("{}", z);
 }
