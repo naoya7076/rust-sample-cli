@@ -14,13 +14,7 @@ impl RpnCalculator {
 
     // &strがわからん.まず&がわからん
     pub fn eval(&self, formula: &str) -> Result<i32> {
-        // mutとVecがわからん
-        // 確かmutは可変の変数
-        // collectはイテレータをコレクションに変換する。変換先のコレクションを::<T>のように指定できる
-        // Vec<_>のように_で埋めておけば型推論される
         let mut tokens = formula.split_whitespace().rev().collect::<Vec<_>>();
-        // 所有権と借用の話
-        // 借用: 所有権は元の所有者が持ったまま、値の参照を貸し出すこと
         self.eval_inner(&mut tokens)
     }
 
@@ -121,13 +115,12 @@ mod tests {
 
         assert_eq!(calc.eval("2 3 +").unwrap(), 5);
         assert_eq!(calc.eval("2 3 *").unwrap(), 6);
-        assert_eq!(calc.eval("2 3 - ").unwrap(), -1);
+        assert_eq!(calc.eval("2 3 -").unwrap(), -1);
         assert_eq!(calc.eval("2 3 /").unwrap(), 0);
         assert_eq!(calc.eval("2 3 %").unwrap(), 2);
     }
 
     #[test]
-    #[should_panic]
     fn test_ng() {
         let calc = RpnCalculator::new(false);
         assert!(calc.eval("").is_err());
