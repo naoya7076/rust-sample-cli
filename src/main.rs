@@ -3,6 +3,7 @@ use anyhow::{bail, ensure, Context, Result};
 use clap::Parser;
 use std::fs::File;
 use std::io::{stdin, BufRead, BufReader};
+use std::path::PathBuf;
 
 struct RpnCalculator(bool);
 
@@ -66,7 +67,7 @@ struct Opts {
 
     #[clap(name = "FILE")]
     // Optionはデータがあることと無いことを表す構造型
-    formula_file: Option<String>,
+    formula_file: Option<PathBuf>,
 }
 
 // main関数ってResult返せれるのか。Result<()>の「()」は何だ
